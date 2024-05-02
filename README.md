@@ -31,3 +31,6 @@ Most of these sensors work at 5v whereas VSDSquadron Mini works at 1.8V to 3.6V.
 | Relay         | PD5           |
 | LCD-SDA       | PC1           |
 | LCD-SCL       | PC2           |
+
+##Video Demonstration
+https://drive.google.com/drive/u/1/folders/1_U6dP5Mxgn7eanhBTM3j54Smm3Wepmg-
