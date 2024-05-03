@@ -26,8 +26,12 @@ int main(void)
 	GPIO_InitTypeDef GPIO_InitStructure = {0};
 
 	HOME_CLOCK_ENABLE;
-	GPIO_InitStructure.GPIO_Pin = IR_Pin;
-	GPIO_InitStructure.GPIO_Pin = buzz_Pin;
+	GPIO_InitStructure.GPIO_Pin = IR_Pin | PIR_Pin | soil_Pin | gas_Pin;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(HOME_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = buzz_Pin|rel_Pin;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(HOME_GPIO_PORT, &GPIO_InitStructure);
@@ -38,6 +42,21 @@ int main(void)
 			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, SET);
 		else
 			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, RESET);
+
+		if (GPIO_ReadInputDataBit(HOME_GPIO_PORT, PIR_Pin))
+			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, SET);
+		else
+			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, RESET);
+
+		if (GPIO_ReadInputDataBit(HOME_GPIO_PORT, soil_Pin))
+			GPIO_WriteBit(HOME_GPIO_PORT, rel_Pin, SET);
+		else
+			GPIO_WriteBit(HOME_GPIO_PORT, rel_Pin, RESET);
+
+		if (GPIO_ReadInputDataBit(HOME_GPIO_PORT, gas_Pin))
+			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, SET);
+		else
+			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, RESET);			
 	}
 }
 
