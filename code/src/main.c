@@ -4,8 +4,8 @@
 #define HOME_GPIO_PORT GPIOD
 #define IR_Pin GPIO_Pin_0
 #define PIR_Pin GPIO_Pin_1
-#define soil_Pin GPIO_Pin_2
-#define gas_Pin GPIO_Pin_3
+#define gas_Pin GPIO_Pin_2
+#define soil_Pin GPIO_Pin_3
 #define buzz_Pin GPIO_Pin_4
 #define rel_Pin GPIO_Pin_5
 #define LED_Pin GPIO_Pin_6
@@ -31,19 +31,14 @@ int main(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(HOME_GPIO_PORT, &GPIO_InitStructure);
 
-	GPIO_InitStructure.GPIO_Pin = buzz_Pin|rel_Pin;
+	GPIO_InitStructure.GPIO_Pin = buzz_Pin | rel_Pin | LED_Pin;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(HOME_GPIO_PORT, &GPIO_InitStructure);
 
 	while (1)
 	{
-		if (GPIO_ReadInputDataBit(HOME_GPIO_PORT, IR_Pin))
-			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, SET);
-		else
-			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, RESET);
-
-		if (GPIO_ReadInputDataBit(HOME_GPIO_PORT, PIR_Pin))
+		if (GPIO_ReadInputDataBit(HOME_GPIO_PORT, IR_Pin) || GPIO_ReadInputDataBit(HOME_GPIO_PORT, PIR_Pin))
 			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, SET);
 		else
 			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, RESET);
@@ -53,10 +48,10 @@ int main(void)
 		else
 			GPIO_WriteBit(HOME_GPIO_PORT, rel_Pin, RESET);
 
-		if (GPIO_ReadInputDataBit(HOME_GPIO_PORT, gas_Pin))
-			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, SET);
+		if (!GPIO_ReadInputDataBit(HOME_GPIO_PORT, gas_Pin))
+			GPIO_WriteBit(HOME_GPIO_PORT, LED_Pin, SET);
 		else
-			GPIO_WriteBit(HOME_GPIO_PORT, buzz_Pin, RESET);			
+			GPIO_WriteBit(HOME_GPIO_PORT, LED_Pin, RESET);
 	}
 }
 
