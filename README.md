@@ -32,10 +32,10 @@ Most of these sensors work at 5v whereas VSDSquadron Mini works at 1.8V to 3.6V.
 | LCD-SDA       | PC1           |
 | LCD-SCL       | PC2           |
 
-##Video Demonstration
+## Video Demonstration
 https://drive.google.com/drive/u/1/folders/1_U6dP5Mxgn7eanhBTM3j54Smm3Wepmg-
 
-##Fault Injection
+## Fault Injection
 Fault injection is a technique used to evaluate the resilience and security of microcontroller-based systems by deliberately introducing faults or errors into the system during operation. This approach helps in identifying vulnerabilities and weaknesses that malicious attackers might exploit. Here's an overview of fault injection in the context of microcontrollers:
 
 ### Purpose of Fault Injection:
@@ -44,13 +44,13 @@ Fault injection is a technique used to evaluate the resilience and security of m
 2. **Reliability Testing**: It's also used for reliability testing to understand how the system handles faults, which can occur due to environmental conditions, aging, or deliberate attacks.
 
 ### Types of Fault Injection:
-1. **Electrical Faults**: Injecting faults by manipulating power supply voltages (e.g., voltage spikes, brownouts) or injecting electromagnetic interference. In this board, voltage regulator and pairs of decoupling capacitors ensure that it gets enough supply voltage. Power ON/Down Reset from software ensure that when supply is back on or cut off, the code execution starts from first instruction and not skipping anything.
+1. **Electrical Faults**: Injecting faults by manipulating power supply voltages (e.g., voltage spikes, brownouts) or injecting electromagnetic interference. In this board, voltage regulator and pairs of decoupling capacitors ensure that it gets enough supply voltage. Power ON/Down Reset from software ensure that when supply is back on or cut off, the code execution starts from first instruction and not skipping anything. A faulty code which disables POR/PDR/Brownout proceeded by voltage variation supplied to the board may skip certain instructions.
 
-2. **Clock and Timing Faults**: Manipulating clock signals to disrupt the timing of operations within the microcontroller. By an external frequency generator or tampering internal osciallator, a faulty clock can be given to core and peripherals.
+2. **Clock and Timing Faults**: Manipulating clock signals to disrupt the timing of operations within the microcontroller. By an external frequency generator or tampering internal osciallator, a faulty clock can be given to core and peripherals which could damage some part of the board.
 
 3. **Memory Faults**: Introducing faults in memory operations by altering data during read/write operations.
 
-4. **Environmental Faults**: Exposing the microcontroller to extreme temperatures, humidity, or radiation to assess its robustness. Ther is a relevant veritasium video on this topic: https://youtu.be/AaZ_RSt0KP8?feature=shared
+4. **Environmental Faults**: Exposing the microcontroller to extreme temperatures, humidity, or radiation to assess its robustness. There is a relevant veritasium video on this topic: https://youtu.be/AaZ_RSt0KP8?feature=shared
 
 5. **Software Faults**: Modifying firmware or injecting unexpected inputs to cause buffer overflows, stack corruptions, or unexpected program behavior. If the system is running RTOS then there can be some nasty faults like deadlock, starvation, livelock etc. Another bug of RTOS called priority inversion almost put an end to NASA's MARS mission: https://www.rapitasystems.com/blog/what-really-happened-software-mars-pathfinder-spacecraft. In this system, a higher priority task can be inserted which could starve other tasks if there is no watchdog timer safeguard. 
 
@@ -65,7 +65,7 @@ Fault injection is a technique used to evaluate the resilience and security of m
 
 5. **Side-Channel Attacks**: Leveraging unintentional emanations (e.g., power consumption, electromagnetic radiation) from the microcontroller during specific operations to gain insights or inject faults.
 
-6. **System Reset**: System reset can be connected such that it continuously resets the microcontroller. Similarly in software, tampering of watchdog timer can also lead to continuous resets.
+6. **System Reset**: System reset pin can be connected such that it continuously resets the microcontroller. Similarly in software, tampering of watchdog timer can also lead to continuous resets.
    
 ### Tools for Fault Injection:
 1. **Power Supply Modulation Equipment**: Devices that can vary voltage levels, inject noise, or induce power glitches.
