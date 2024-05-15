@@ -88,7 +88,7 @@ void setup() {
 void loop() {
   digitalWrite(faultPin, LOW);  // sets the pin off
   delayMicroseconds(50);
-  digitalWrite(faultPin, HIGH);  // sets the pin off
+  digitalWrite(faultPin, HIGH);  // sets the pin
   delay(10);
 }
 ```
