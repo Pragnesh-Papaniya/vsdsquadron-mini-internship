@@ -32,9 +32,6 @@ Most of these sensors work at 5v whereas VSDSquadron Mini works at 1.8V to 3.6V.
 | LCD-SDA       | PC1           |
 | LCD-SCL       | PC2           |
 
-## Video Demonstration
-https://drive.google.com/drive/u/1/folders/1_U6dP5Mxgn7eanhBTM3j54Smm3Wepmg-
-
 ## Fault Injection
 Fault injection is a technique used to evaluate the resilience and security of microcontroller-based systems by deliberately introducing faults or errors into the system during operation. This approach helps in identifying vulnerabilities and weaknesses that malicious attackers might exploit. Here's an overview of fault injection in the context of microcontrollers:
 
@@ -80,3 +77,21 @@ To counteract fault injection attacks, microcontroller designers can employ vari
 - Hardening against power/glitch attacks through power supply filtering or regulation.
 - Adding redundancy in critical circuits to tolerate faults.
 - Utilizing secure boot mechanisms and cryptographic protections to prevent unauthorized firmware modifications.
+## Voltage glitching code on VSDSquadron
+```
+#define faultPin 15
+
+void setup() {
+  pinMode(faultPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(faultPin, LOW);  // sets the pin off
+  delayMicroseconds(50);
+  digitalWrite(faultPin, HIGH);  // sets the pin off
+  delay(10);
+}
+```
+The fault's effect can be seen in PIR sensor part of the original code. According to datasheet, powercut above 300us will cause the board to reset hence to see abnormalities powercut should be done in less than 300us. The voltage regulator and 4 capacitors ensure this regular power supply. If we ground middle pin(Vout) of voltage regulator which is connected to 3.3v, to ground for less than 300us, the core wouldn't reset and maybe some abnormalities can be observed. Above code uses an ESP32 pin to ground Vout for 50us then it is connected via jumper wire.
+## Video Demonstration
+https://drive.google.com/drive/u/1/folders/1_U6dP5Mxgn7eanhBTM3j54Smm3Wepmg-
